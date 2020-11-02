@@ -16,7 +16,7 @@ const ProductScreen = ({ match }) => {
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
+    }, [match]);
 
     // useEffect(() => {
     //     const fetchProduct = async () => {
