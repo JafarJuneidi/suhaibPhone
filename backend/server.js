@@ -1,9 +1,11 @@
-const express = require('express'),
-    app = express();
-const dotenv = require('dotenv').config();
-const products = require('./data/products');
+import express from 'express';
+import dotenv from 'dotenv';
+// need to add .js when importing js files
+import products from './data/products.js';
 
+dotenv.config();
 const PORT = process.env.PORT || 5000;
+const app = express();
 
 app.get('/', (req, res) => {
     res.send('API is running...');

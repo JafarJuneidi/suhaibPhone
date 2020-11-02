@@ -7,25 +7,26 @@ const Homescreen = () => {
     const [products, setProducts] = useState([]);
 
     // runs after component loads
-    useEffect(() => {
-        axios
-            .get('/api/products')
-            .then(({ data }) => {
-                setProducts(data);
-            })
-
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
-
     // useEffect(() => {
-    //     const fetchProducts = async () => {
-    //         const { data } = await axios.get('/api/products');
-    //         setProducts(data);
-    //     };
-    //     fetchProducts();
+    //     axios
+    //         .get('/api/products')
+    //         .then(({ data }) => {
+    //             setProducts(data);
+    //         })
+
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
     // }, []);
+
+    // this is noticably faster for some reason or is it just the network?
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const { data } = await axios.get('/api/products');
+            setProducts(data);
+        };
+        fetchProducts();
+    }, []);
 
     return (
         <>

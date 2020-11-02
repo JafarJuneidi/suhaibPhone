@@ -7,26 +7,28 @@ import axios from 'axios';
 const ProductScreen = ({ match }) => {
     const [product, setProduct] = useState({});
 
-    useEffect(() => {
-        axios
-            .get(`/api/products/${match.params.id}`)
-            .then(({ data }) => {
-                setProduct(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [match]);
-
     // useEffect(() => {
-    //     const fetchProduct = async () => {
-    //         const { data } = await axios.get(
-    //             `/api/products/${match.params.id}`
-    //         );
-    //         setProduct(data);
-    //     };
-    //     fetchProduct();
-    // }, []);
+    //     axios
+    //         .get(`/api/products/${match.params.id}`)
+    //         .then((res) => res.data)
+    //         .then((data) => {
+    //             setProduct(data);
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
+    // }, [match]);
+
+    // this is noticably faster for some reason or is it just the network?
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const { data } = await axios.get(
+                `/api/products/${match.params.id}`
+            );
+            setProduct(data);
+        };
+        fetchProduct();
+    }, [match]);
 
     return (
         <>
