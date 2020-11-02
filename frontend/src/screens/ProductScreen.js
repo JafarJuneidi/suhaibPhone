@@ -20,6 +20,7 @@ const ProductScreen = ({ match }) => {
                     <Image src={product.image} alt={product.name} fluid />
                 </Col>
                 <Col md={3}>
+                    {/* variant flush takes away the border */}
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h2>{product.name}</h2>
