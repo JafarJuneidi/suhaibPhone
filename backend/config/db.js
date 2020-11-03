@@ -8,9 +8,11 @@ const connectDB = async () => {
             useCreateIndex: true,
         });
 
-        console.log(`mongoDB connected: ${conn.connection.host}`);
+        console.log(
+            `mongoDB connected: ${conn.connection.host}`.cyan.underline
+        );
     } catch (error) {
-        console.error(`Error: ${error.message}`);
+        console.error(`Error: ${error.message}`.red.underline.bold);
         process.exit(1);
     }
 
@@ -22,10 +24,12 @@ const connectDB = async () => {
     //         useCreateIndex: true,
     //     })
     //     .then((res) => {
-    //         console.log(`mongoDB connected: ${res.connection.host}`);
+    //         console.log(
+    //             `mongoDB connected: ${res.connection.host}`.cyan.underline
+    //         );
     //     })
     //     .catch((error) => {
-    //         console.error(`Error: ${error.message}`);
+    //         console.error(`Error: ${error.message}`.red.underline.bold);
     //         process.exit(1);
     //     });
 };
