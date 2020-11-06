@@ -10,7 +10,7 @@ import {
 export const productListReducer = (state = { products: [] }, action) => {
     switch (action.type) {
         case PRODUCT_LIST_REQUEST:
-            return { loading: true, ...state };
+            return { loading: true, products: [] };
         case PRODUCT_LIST_SUCCESS:
             return { loading: false, products: action.payload };
         case PRODUCT_LIST_FAIL:
@@ -27,7 +27,7 @@ export const productDetailsReducer = (
     switch (action.type) {
         case PRODUCT_DETAILS_REQUEST:
             // passing ...state will keep previous state before the request is done, so old product details show until new product details are requested and loaded. so we pass an empty product instead
-            return { loading: true, product: { reviews: [] } };
+            return { ...state, loading: true };
         case PRODUCT_DETAILS_SUCCESS:
             return { loading: false, product: action.payload };
         case PRODUCT_DETAILS_FAIL:
