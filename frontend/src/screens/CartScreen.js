@@ -28,9 +28,9 @@ const CartScreen = ({ match, location, history }) => {
         }
     }, [dispatch, productId, qty]);
 
-    const removeFromCartHandler = (id) => {
-        dispatch(removeFromCart(id));
-    };
+    // const removeFromCartHandler = (id) => {
+    //     dispatch(removeFromCart(id));
+    // };
 
     const checkoutHandler = () => {
         history.push('/login?redirect=shipping');
