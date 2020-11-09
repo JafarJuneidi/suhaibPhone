@@ -12,6 +12,7 @@ import {
     USER_REGISTER_SUCCESS,
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_REQUEST,
+    USER_UPDATE_PROFILE_RESET,
     USER_UPDATE_PROFILE_SUCCESS,
 } from '../constants/userConstants';
 
@@ -154,6 +155,13 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
             type: USER_UPDATE_PROFILE_SUCCESS,
             payload: data,
         });
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data,
+        });
+
+        localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
         dispatch({
             type: USER_UPDATE_PROFILE_FAIL,
@@ -163,4 +171,10 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
                     : error.message,
         });
     }
+};
+
+export const updateProfileReset = () => async (dispatch) => {
+    dispatch({
+        type: USER_UPDATE_PROFILE_RESET,
+    });
 };
