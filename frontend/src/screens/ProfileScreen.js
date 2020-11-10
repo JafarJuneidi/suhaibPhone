@@ -38,7 +38,7 @@ const ProfileScreen = ({ history }) => {
                 setEmail(user.email);
             }
         }
-    }, [history, userInfo, dispatch, user]);
+    }, [history, userInfo, dispatch, user, success]);
 
     const submitHandler = (e) => {
         e.preventDefault();
