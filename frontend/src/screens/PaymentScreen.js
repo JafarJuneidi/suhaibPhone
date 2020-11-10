@@ -9,6 +9,11 @@ const PaymentScreen = ({ history }) => {
     const cart = useSelector((state) => state.cart);
     const { shippingAddress, paymentMethod } = cart;
 
+    const userLogin = useSelector((state) => state.userLogin);
+    if (!userLogin.userInfo) {
+        history.push('/');
+    }
+
     if (!shippingAddress) {
         history.push('/shipping');
     }

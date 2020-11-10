@@ -9,6 +9,10 @@ import { createOrder } from '../actions/orderActions';
 const PlaceOrderScreen = ({ history }) => {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
+    const userLogin = useSelector((state) => state.userLogin);
+    if (!userLogin.userInfo) {
+        history.push('/');
+    }
 
     // Calculate prices
     const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
@@ -32,7 +36,7 @@ const PlaceOrderScreen = ({ history }) => {
             history.push(`/order/${order._id}`);
         }
         // eslint-disable-next-line
-    }, [history, success]);
+    }, [history, success, userLogin]);
 
     const placeOrderHandler = () => {
         dispatch(
