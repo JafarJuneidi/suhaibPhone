@@ -9,7 +9,7 @@ export const cartReducer = (
     state = {
         cartItems: [],
         shippingAddress: {},
-        // paymentMethod: ''
+        paymentMethod: '',
     },
     action
 ) => {

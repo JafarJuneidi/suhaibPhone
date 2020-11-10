@@ -7,19 +7,19 @@ import { savePaymentMethod } from '../actions/cartActions';
 
 const PaymentScreen = ({ history }) => {
     const cart = useSelector((state) => state.cart);
-    const { shippingAddress } = cart;
+    const { shippingAddress, paymentMethod } = cart;
 
     if (!shippingAddress) {
         history.push('/shipping');
     }
 
-    const [paymentMethod, setPaymentMethod] = useState('PayPal');
+    const [paymentMethodForm, setPaymentMethodFrom] = useState(paymentMethod);
 
     const dispatch = useDispatch();
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(savePaymentMethod(paymentMethod));
+        dispatch(savePaymentMethod(paymentMethodForm));
         history.push('/placeorder');
     };
 
@@ -36,20 +36,25 @@ const PaymentScreen = ({ history }) => {
                             type='radio'
                             label='PayPal or Credit Card'
                             id='PayPal'
-                            name='paymentMethod'
+                            name='paymentMethodForm'
                             value='PayPal'
-                            checked
-                            onChange={(e) => setPaymentMethod(e.target.value)}
+                            checked={paymentMethodForm === 'PayPal'}
+                            onChange={(e) =>
+                                setPaymentMethodFrom(e.target.value)
+                            }
                         ></Form.Check>
 
-                        {/* <Form.Check
+                        <Form.Check
                             type='radio'
                             label='Stripe'
                             id='Stripe'
-                            name='paymentMethod'
+                            name='paymentMethodForm'
                             value='Stripe'
-                            onChange={(e) => setPaymentMethod(e.target.value)}
-                        ></Form.Check> */}
+                            checked={paymentMethodForm === 'Stripe'}
+                            onChange={(e) =>
+                                setPaymentMethodFrom(e.target.value)
+                            }
+                        ></Form.Check>
                     </Col>
                 </Form.Group>
 
