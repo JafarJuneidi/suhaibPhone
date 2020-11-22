@@ -12,6 +12,9 @@ import {
     PRODUCT_CREATE_REQUEST,
     PRODUCT_CREATE_SUCCESS,
     PRODUCT_CREATE_FAIL,
+    PRODUCT_UPDATE_SUCCESS,
+    PRODUCT_UPDATE_FAIL,
+    PRODUCT_UPDATE_REQUEST,
 } from '../constants/productConstants';
 
 export const listProducts = () => async (dispatch) => {
@@ -108,6 +111,45 @@ export const createProduct = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: PRODUCT_CREATE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const updateProduct = (product) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: PRODUCT_UPDATE_REQUEST,
+        });
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+
+        // we are sending an empty obj because we are making a post request but we are not sending anything
+        const { data } = await axios.put(
+            `/api/products/${product._id}`,
+            product,
+            config
+        );
+
+        dispatch({
+            type: PRODUCT_UPDATE_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_UPDATE_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message
