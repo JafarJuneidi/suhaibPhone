@@ -44,6 +44,12 @@ const App = () => {
                     <Route
                         path='/admin/productlist'
                         component={ProductListScreen}
+                        exact
+                    />
+                    <Route
+                        path='/admin/productlist/:pageNumber'
+                        component={ProductListScreen}
+                        exact
                     />
                     <Route
                         path='/admin/product/:id/edit'
@@ -53,7 +59,16 @@ const App = () => {
                         path='/admin/orderlist'
                         component={OrderListScreen}
                     />
-                    <Route path='/search/:keyword' component={HomeScreen} />
+                    <Route
+                        path='/search/:keyword'
+                        component={HomeScreen}
+                        exact
+                    />
+                    <Route
+                        path='/search/:keyword/page/:pageNumber'
+                        component={HomeScreen}
+                    />
+                    <Route path='/page/:pageNumber' component={HomeScreen} />
                     {/* exact fixes the need for switch */}
                     <Route path='/' component={HomeScreen} exact />
                 </Container>
