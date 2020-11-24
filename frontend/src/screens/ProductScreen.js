@@ -13,6 +13,7 @@ import {
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 import {
     listProductDetails,
     createProductReview,
@@ -76,6 +77,7 @@ const ProductScreen = ({ match, history }) => {
                 <Message variant='danger'>{error}</Message>
             ) : (
                 <>
+                    <Meta title={product.name} />
                     <Row>
                         {/* medium screens and up take size 6 */}
                         <Col md={6}>
