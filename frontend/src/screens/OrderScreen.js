@@ -46,7 +46,7 @@ const OrderScreen = ({ history, match }) => {
             script.type = 'text/javascript';
             script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
             script.async = true;
-            script.onLoad = () => {
+            script.onload = () => {
                 setSdkReady(true);
             };
             document.body.appendChild(script);
@@ -74,7 +74,7 @@ const OrderScreen = ({ history, match }) => {
     ]);
 
     const SuccessPaymentHandler = (paymentResult) => {
-        console.log(paymentResult);
+        // console.log(paymentResult);
         dispatch(payOrder(orderId, paymentResult));
     };
 
