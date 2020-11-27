@@ -14,7 +14,7 @@ const PaymentScreen = ({ history }) => {
         history.push('/');
     }
 
-    if (!shippingAddress) {
+    if (!shippingAddress.address) {
         history.push('/shipping');
     }
 

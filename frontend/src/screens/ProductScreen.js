@@ -37,7 +37,7 @@ const ProductScreen = ({ match, history }) => {
         (state) => state.productReviewCreate
     );
     const {
-        // loading: loadingProductReview,
+        loading: loadingProductReview,
         error: errorProductReview,
         success: successProductReview,
     } = productReviewCreate;
@@ -46,15 +46,16 @@ const ProductScreen = ({ match, history }) => {
         if (successProductReview) {
             setRating(0);
             setComment('');
-            dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
         }
 
-        if (!userInfo) {
+        if (!product._id || product._id !== match.params.id) {
+            dispatch(listProductDetails(match.params.id));
             dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
         }
 
         dispatch(listProductDetails(match.params.id));
-    }, [dispatch, match, successProductReview, userInfo]);
+        // eslint-disable-next-line
+    }, [dispatch, match, successProductReview]);
 
     const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?qty=${qty}`);
@@ -199,12 +200,18 @@ const ProductScreen = ({ match, history }) => {
                                     </ListGroup.Item>
                                 ))}
                                 <ListGroup.Item>
+                                    <h2>Write a Customer Review</h2>
+                                    {successProductReview && (
+                                        <Message variant='success'>
+                                            Review submitted successfully
+                                        </Message>
+                                    )}
+                                    {loadingProductReview && <Loader />}
                                     {errorProductReview && (
                                         <Message variant='danger'>
                                             {errorProductReview}
                                         </Message>
                                     )}
-                                    <h2>Write a Customer Review</h2>
                                     {userInfo ? (
                                         <Form onSubmit={submitHandler}>
                                             <Form.Group controlId='rating'>
@@ -252,6 +259,7 @@ const ProductScreen = ({ match, history }) => {
                                                 ></Form.Control>
                                             </Form.Group>
                                             <Button
+                                                disabled={loadingProductReview}
                                                 type='submit'
                                                 variant='primary'
                                             >
