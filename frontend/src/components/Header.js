@@ -1,28 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // Same as Link but allows for bootstrap integration as well
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap';
 import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
     const dispatch = useDispatch();
+    const { t, i18n } = useTranslation();
+    console.log(i18n.language);
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
-    // const logoutHandler = () => {
-    //     dispatch(logout)
-    // };
+    const logoutHandler = () => {
+        dispatch(logout());
+    };
+
+    const changeLanguage = () => {
+        const lng = i18n.language === 'en' ? 'ar' : 'en';
+        i18n.changeLanguage(lng);
+    };
+
+    useEffect(() => {
+        var elements = document.querySelectorAll('*');
+        if (i18n.language === 'ar') {
+            elements.forEach((element) => {
+                element.classList.add('arabic');
+            });
+        } else {
+            elements.forEach((element) => {
+                element.classList.remove('arabic');
+            });
+        }
+    });
 
     return (
         <header>
             <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
                 <Container>
                     <LinkContainer to='/'>
-                        <Navbar.Brand>ProShop</Navbar.Brand>
+                        <Navbar.Brand>Suhaib Phone</Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
@@ -31,10 +52,18 @@ const Header = () => {
                                 <SearchBox history={props.history} />
                             )}
                         />
-                        <Nav className='ml-auto'>
+                        <Button
+                            className='ml-auto mr-auto'
+                            style={{ 'background-color': 'transparent' }}
+                            onClick={changeLanguage}
+                        >
+                            {i18n.language === 'en' ? 'العربية' : 'English'}
+                        </Button>
+                        <Nav>
                             <LinkContainer to='/cart'>
                                 <Nav.Link>
-                                    <i className='fas fa-shopping-cart'></i>Cart
+                                    <i className='fas fa-shopping-cart'></i>
+                                    {t('Cart')}
                                 </Nav.Link>
                             </LinkContainer>
                             {userInfo ? (
@@ -44,19 +73,18 @@ const Header = () => {
                                 >
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>
-                                            Profile
+                                            {t('Profile')}
                                         </NavDropdown.Item>
                                     </LinkContainer>
-                                    <NavDropdown.Item
-                                        onClick={() => dispatch(logout())}
-                                    >
-                                        Logout
+                                    <NavDropdown.Item onClick={logoutHandler}>
+                                        {t('Logout')}
                                     </NavDropdown.Item>
                                 </NavDropdown>
                             ) : (
                                 <LinkContainer to='/login'>
                                     <Nav.Link>
-                                        <i className='fas fa-user'></i>Sign In
+                                        <i className='fas fa-user'></i>
+                                        {t('Sign In')}
                                     </Nav.Link>
                                 </LinkContainer>
                             )}

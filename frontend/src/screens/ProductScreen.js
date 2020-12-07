@@ -19,8 +19,11 @@ import {
     createProductReview,
 } from '../actions/productActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
+import { useTranslation } from 'react-i18next';
 
 const ProductScreen = ({ match, history }) => {
+    const { t } = useTranslation();
+
     const [qty, setQty] = useState(1);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
@@ -70,7 +73,7 @@ const ProductScreen = ({ match, history }) => {
         <>
             {/* can use button with LinkContainer as well */}
             <Link className='btn btn-light my-3' to='/'>
-                Go Back
+                {t('Go Back')}
             </Link>
             {loading ? (
                 <Loader />
@@ -98,14 +101,16 @@ const ProductScreen = ({ match, history }) => {
                                 <ListGroup.Item>
                                     <Rating
                                         value={product.rating}
-                                        text={`${product.numReviews} reviews`}
+                                        text={`${product.numReviews} ${t(
+                                            'reviews'
+                                        )}`}
                                     />
                                 </ListGroup.Item>
                                 <ListGroup.Item>
-                                    Price: ${product.price}
+                                    {t('Price')}: &#8362;{product.price}
                                 </ListGroup.Item>
                                 <ListGroup.Item>
-                                    Description: {product.description}
+                                    {t('Description')}: {product.description}
                                 </ListGroup.Item>
                             </ListGroup>
                         </Col>
@@ -114,10 +119,10 @@ const ProductScreen = ({ match, history }) => {
                                 <ListGroup variant='flush'>
                                     <ListGroup.Item>
                                         <Row>
-                                            <Col>Price:</Col>
+                                            <Col>{t('Price')}:</Col>
                                             <Col>
                                                 <strong>
-                                                    ${product.price}
+                                                    &#8362;{product.price}
                                                 </strong>
                                             </Col>
                                         </Row>
@@ -125,11 +130,11 @@ const ProductScreen = ({ match, history }) => {
 
                                     <ListGroup.Item>
                                         <Row>
-                                            <Col>Status:</Col>
+                                            <Col>{t('Status')}:</Col>
                                             <Col>
                                                 {product.countInStock > 0
-                                                    ? 'In Stock'
-                                                    : 'Out Of Stock'}
+                                                    ? t('In Stock')
+                                                    : t('Out Of Stock')}
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>
@@ -137,7 +142,7 @@ const ProductScreen = ({ match, history }) => {
                                     {product.countInStock > 0 && (
                                         <ListGroup.Item>
                                             <Row>
-                                                <Col>Qty:</Col>
+                                                <Col>{t('Qty')}:</Col>
                                                 <Col>
                                                     <Form.Control
                                                         as='select'
@@ -175,7 +180,7 @@ const ProductScreen = ({ match, history }) => {
                                                 product.countInStock === 0
                                             }
                                         >
-                                            Add To Cart
+                                            {t('Add To Cart')}
                                         </Button>
                                     </ListGroup.Item>
                                 </ListGroup>
@@ -184,9 +189,9 @@ const ProductScreen = ({ match, history }) => {
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <h2>Reviews</h2>
+                            <h2>{t('Reviews')}</h2>
                             {product.reviews.length === 0 && (
-                                <Message>No Reviews</Message>
+                                <Message>{t('No Reviews')}</Message>
                             )}
                             <ListGroup variant='flush'>
                                 {product.reviews.map((review) => (
@@ -200,10 +205,10 @@ const ProductScreen = ({ match, history }) => {
                                     </ListGroup.Item>
                                 ))}
                                 <ListGroup.Item>
-                                    <h2>Write a Customer Review</h2>
+                                    <h2>{t('Write a Review')}</h2>
                                     {successProductReview && (
                                         <Message variant='success'>
-                                            Review submitted successfully
+                                            {t('Review submitted successfully')}
                                         </Message>
                                     )}
                                     {loadingProductReview && <Loader />}
@@ -215,7 +220,9 @@ const ProductScreen = ({ match, history }) => {
                                     {userInfo ? (
                                         <Form onSubmit={submitHandler}>
                                             <Form.Group controlId='rating'>
-                                                <Form.Label>Rating</Form.Label>
+                                                <Form.Label>
+                                                    {t('Rating')}
+                                                </Form.Label>
                                                 <Form.Control
                                                     as='select'
                                                     value={rating}
@@ -226,27 +233,29 @@ const ProductScreen = ({ match, history }) => {
                                                     }
                                                 >
                                                     <option value=''>
-                                                        Select...
+                                                        {t('Select')}
                                                     </option>
                                                     <option value='1'>
-                                                        1 - Poor
+                                                        1 - {t('Poor')}
                                                     </option>
                                                     <option value='2'>
-                                                        2 - Fair
+                                                        2 - {t('Fair')}
                                                     </option>
                                                     <option value='3'>
-                                                        3 - Good
+                                                        3 - {t('Good')}
                                                     </option>
                                                     <option value='4'>
-                                                        4 - Very Good
+                                                        4 - {t('Very Good')}
                                                     </option>
                                                     <option value='5'>
-                                                        5 - Excellent
+                                                        5 - {t('Excellent')}
                                                     </option>
                                                 </Form.Control>
                                             </Form.Group>
                                             <Form.Group controlId='comment'>
-                                                <Form.Label>Comment</Form.Label>
+                                                <Form.Label>
+                                                    {t('Comment')}
+                                                </Form.Label>
                                                 <Form.Control
                                                     as='textarea'
                                                     row='3'
@@ -263,18 +272,17 @@ const ProductScreen = ({ match, history }) => {
                                                 type='submit'
                                                 variant='primary'
                                             >
-                                                Submit
+                                                {t('Submit')}
                                             </Button>
                                         </Form>
                                     ) : (
                                         <Message>
-                                            Please{' '}
                                             <Link
                                                 to={`/login?redirect=/product/${product._id}`}
                                             >
-                                                sign in
+                                                {t('sign in')}
                                             </Link>{' '}
-                                            to write a review
+                                            {t('to write a review')}
                                         </Message>
                                     )}
                                 </ListGroup.Item>

@@ -4,8 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { savePaymentMethod } from '../actions/cartActions';
+import { useTranslation } from 'react-i18next';
 
 const PaymentScreen = ({ history }) => {
+    const { t } = useTranslation();
+
     const cart = useSelector((state) => state.cart);
     const { shippingAddress, paymentMethod } = cart;
 
@@ -31,13 +34,14 @@ const PaymentScreen = ({ history }) => {
     return (
         <FormContainer>
             <CheckoutSteps step1 step2 step3 />
-            <h1>Payment Method</h1>
+            <h1>{t('Payment Method')}</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Group>
-                    <Form.Label as='legend'>Select Method</Form.Label>
+                    <Form.Label as='legend'>{t('Select Method')}</Form.Label>
 
                     <Col>
                         <Form.Check
+                            style={{ direction: 'ltr' }}
                             type='radio'
                             label='PayPal or Credit Card'
                             id='PayPal'
@@ -49,7 +53,7 @@ const PaymentScreen = ({ history }) => {
                             }
                         ></Form.Check>
 
-                        <Form.Check
+                        {/* <Form.Check
                             type='radio'
                             label='Stripe'
                             id='Stripe'
@@ -59,12 +63,12 @@ const PaymentScreen = ({ history }) => {
                             onChange={(e) =>
                                 setPaymentMethodFrom(e.target.value)
                             }
-                        ></Form.Check>
+                        ></Form.Check> */}
                     </Col>
                 </Form.Group>
 
                 <Button type='submit' variant='primary'>
-                    Continue
+                    {t('Continue')}
                 </Button>
             </Form>
         </FormContainer>

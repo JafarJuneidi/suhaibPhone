@@ -9,8 +9,11 @@ import Paginate from '../components/Paginate';
 import ProductCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
 import { listProducts } from '../actions/productActions';
+import { useTranslation } from 'react-i18next';
 
 const Homescreen = ({ match }) => {
+    const { t } = useTranslation();
+
     const keyword = match.params.keyword;
     const pageNumber = match.params.pageNumber || 1;
 
@@ -30,10 +33,10 @@ const Homescreen = ({ match }) => {
                 <ProductCarousel />
             ) : (
                 <Link to='/' className='btn btn-light'>
-                    Go Back
+                    {t('Go Back')}
                 </Link>
             )}
-            <h1>Latest Products</h1>
+            <h1>{t('Latest Products')}</h1>
             {loading ? (
                 <Loader />
             ) : error ? (

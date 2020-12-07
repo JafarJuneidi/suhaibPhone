@@ -4,8 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { saveShippingAddress } from '../actions/cartActions';
+import { useTranslation } from 'react-i18next';
 
 const ShippingScreen = ({ history }) => {
+    const { t } = useTranslation();
+
     const cart = useSelector((state) => state.cart);
     const { shippingAddress } = cart;
 
@@ -15,57 +18,73 @@ const ShippingScreen = ({ history }) => {
     }
 
     const [address, setAddress] = useState(shippingAddress.address);
-    const [city, setCity] = useState(shippingAddress.city);
-    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
-    const [country, setCountry] = useState(shippingAddress.country);
+    const [city, setCity] = useState('Hebron');
+    const [postalCode, setPostalCode] = useState('90100');
+    const [phoneNumber, setPhoneNumber] = useState(shippingAddress.phoneNumber);
+    // const [country, setCountry] = useState(shippingAddress.country);
 
     const dispatch = useDispatch();
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(saveShippingAddress({ address, city, postalCode, country }));
+        dispatch(
+            saveShippingAddress({ address, city, postalCode, phoneNumber })
+        );
         history.push('/payment');
     };
 
     return (
         <FormContainer>
             <CheckoutSteps step1 step2 />
-            <h1>Shipping</h1>
+            <h1>{t('Shipping')}</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='address'>
-                    <Form.Label>Address</Form.Label>
+                    <Form.Label>{t('Address')}</Form.Label>
                     <Form.Control
                         type='text'
-                        placeholder='Enter address'
+                        placeholder={t('Enter address')}
                         value={address}
                         required
                         onChange={(e) => setAddress(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='city'>
-                    <Form.Label>City</Form.Label>
+                <Form.Group controlId='phoneNumber'>
+                    <Form.Label>{t('Phone Number')}</Form.Label>
                     <Form.Control
                         type='text'
-                        placeholder='Enter city'
+                        placeholder={t('Enter phone number')}
+                        value={phoneNumber}
+                        required
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                    ></Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId='city'>
+                    <Form.Label>{t('City')}</Form.Label>
+                    <Form.Control
+                        type='text'
+                        placeholder={t('Enter city')}
                         value={city}
                         required
+                        disabled
                         onChange={(e) => setCity(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='postalCode'>
-                    <Form.Label>Postal Code</Form.Label>
+                    <Form.Label>{t('Postal Code')}</Form.Label>
                     <Form.Control
                         type='text'
-                        placeholder='Enter postal code'
+                        placeholder={t('Enter postal code')}
                         value={postalCode}
                         required
+                        disabled
                         onChange={(e) => setPostalCode(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='country'>
+                {/* <Form.Group controlId='country'>
                     <Form.Label>Country</Form.Label>
                     <Form.Control
                         type='text'
@@ -74,10 +93,10 @@ const ShippingScreen = ({ history }) => {
                         required
                         onChange={(e) => setCountry(e.target.value)}
                     ></Form.Control>
-                </Form.Group>
+                </Form.Group> */}
 
                 <Button type='submit' variant='primary'>
-                    Continue
+                    {t('Continue')}
                 </Button>
             </Form>
         </FormContainer>

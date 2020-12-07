@@ -15,8 +15,11 @@ import {
     ORDER_PAY_RESET,
     ORDER_DELIVER_RESET,
 } from '../constants/orderConstants';
+import { useTranslation } from 'react-i18next';
 
 const OrderScreen = ({ history, match }) => {
+    const { t } = useTranslation();
+
     const orderId = match.params.id;
 
     const [sdkReady, setSdkReady] = useState(false);
@@ -44,7 +47,7 @@ const OrderScreen = ({ history, match }) => {
             const { data: clientId } = await axios.get('/api/config/paypal');
             const script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=ILS`;
             script.async = true;
             script.onload = () => {
                 setSdkReady(true);
@@ -74,7 +77,6 @@ const OrderScreen = ({ history, match }) => {
     ]);
 
     const SuccessPaymentHandler = (paymentResult) => {
-        // console.log(paymentResult);
         dispatch(payOrder(orderId, paymentResult));
     };
 
@@ -89,25 +91,27 @@ const OrderScreen = ({ history, match }) => {
     ) : (
         <>
             <Link to='/admin/orderlist' className='btn btn-light y-3'>
-                Go Back
+                {t('Go Back')}
             </Link>
-            <h1>Order {order._id}</h1>
+            <h1 style={{ direction: 'rtl' }}>
+                {t('Order')} : {order._id}
+            </h1>
             <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h2>Shipping</h2>
+                            <h2>{t('Shipping')}</h2>
                             <p>
-                                <strong>Name: </strong> {order.user.name}
+                                <strong>{t('Name')}: </strong> {order.user.name}
                             </p>
                             <p>
-                                <strong>Email: </strong>
+                                <strong>{t('Email')}: </strong>
                                 <a href={`mailto:${order.user.email}`}>
                                     {order.user.email}
                                 </a>
                             </p>
                             <p>
-                                <strong>Address: </strong>
+                                <strong>{t('Address')}: </strong>
                                 {order.shippingAddress.address},{' '}
                                 {order.shippingAddress.city},{' '}
                                 {order.shippingAddress.postalCode},{' '}
@@ -115,34 +119,36 @@ const OrderScreen = ({ history, match }) => {
                             </p>
                             {order.isDelivered ? (
                                 <Message variant='success'>
-                                    Delivered on {order.deliveredAt}
+                                    {t('Delivered on')} : {order.deliveredAt}
                                 </Message>
                             ) : (
                                 <Message variant='danger'>
-                                    Not Delivered
+                                    {t('Not Delivered')}
                                 </Message>
                             )}
                         </ListGroup.Item>
 
                         <ListGroup.Item>
-                            <h2>Payment Method</h2>
+                            <h2>{t('Payment Method')}</h2>
                             <p>
-                                <strong>Mathod: </strong>
+                                <strong>{t('Mathod')}: </strong>
                                 {order.paymentMethod}
                             </p>
                             {order.isPaid ? (
                                 <Message variant='success'>
-                                    Paid on {order.paidAt}
+                                    {t('Paid on')} : {order.paidAt}
                                 </Message>
                             ) : (
-                                <Message variant='danger'>Not Paid</Message>
+                                <Message variant='danger'>
+                                    {t('Not Paid')}
+                                </Message>
                             )}
                         </ListGroup.Item>
 
                         <ListGroup.Item>
-                            <h2>Order Items</h2>
+                            <h2>{t('Order Items')}</h2>
                             {order.orderItems.length === 0 ? (
-                                <Message>Order is empty</Message>
+                                <Message>{t('Order is empty')}</Message>
                             ) : (
                                 <ListGroup variant='flush'>
                                     {order.orderItems.map((item, index) => (
@@ -163,9 +169,13 @@ const OrderScreen = ({ history, match }) => {
                                                         {item.name}
                                                     </Link>
                                                 </Col>
-                                                <Col md={4}>
-                                                    {item.qty} x ${item.price} =
-                                                    ${item.qty * item.price}
+                                                <Col
+                                                    md={4}
+                                                    style={{ direction: 'ltr' }}
+                                                >
+                                                    {item.qty} x &#8362;
+                                                    {item.price} = &#8362;
+                                                    {item.qty * item.price}
                                                 </Col>
                                             </Row>
                                         </ListGroup.Item>
@@ -180,30 +190,30 @@ const OrderScreen = ({ history, match }) => {
                     <Card>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h2>Order Summary</h2>
+                                <h2>{t('Order Summary')}</h2>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Items</Col>
-                                    <Col>${order.itemsPrice}</Col>
+                                    <Col>{t('Items')}</Col>
+                                    <Col>&#8362;{order.itemsPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Shipping</Col>
-                                    <Col>${order.shippingPrice}</Col>
+                                    <Col>{t('Shipping')}</Col>
+                                    <Col>&#8362;{order.shippingPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Tax</Col>
-                                    <Col>${order.taxPrice}</Col>
+                                    <Col>{t('Tax')}</Col>
+                                    <Col>&#8362;{order.taxPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Total</Col>
-                                    <Col>${order.totalPrice}</Col>
+                                    <Col>{t('Total')}</Col>
+                                    <Col>&#8362;{order.totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             {!order.isPaid && (
@@ -214,6 +224,7 @@ const OrderScreen = ({ history, match }) => {
                                     ) : (
                                         <PayPalButton
                                             amount={order.totalPrice}
+                                            currency='ILS'
                                             onSuccess={SuccessPaymentHandler}
                                         />
                                     )}

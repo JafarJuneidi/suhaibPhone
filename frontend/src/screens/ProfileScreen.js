@@ -10,8 +10,11 @@ import {
     updateProfileReset,
 } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
+import { useTranslation } from 'react-i18next';
 
 const ProfileScreen = ({ history }) => {
+    const { t } = useTranslation();
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -60,11 +63,11 @@ const ProfileScreen = ({ history }) => {
     return (
         <Row>
             <Col md={3}>
-                <h2>User Profile</h2>
+                <h2>{t('User Profile')}</h2>
                 {message && <Message variant='danger'>{message}</Message>}
                 {}
                 {success && (
-                    <Message variant='success'>Profile Updated</Message>
+                    <Message variant='success'>{t('Profile Updated')}</Message>
                 )}
                 {loading ? (
                     <Loader />
@@ -73,40 +76,40 @@ const ProfileScreen = ({ history }) => {
                 ) : (
                     <Form onSubmit={submitHandler}>
                         <Form.Group controlId='name'>
-                            <Form.Label>Name</Form.Label>
+                            <Form.Label>{t('Name')}</Form.Label>
                             <Form.Control
                                 type='name'
-                                placeholder='Enter name'
+                                placeholder={t('Enter name')}
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             ></Form.Control>
                         </Form.Group>
 
                         <Form.Group controlId='email'>
-                            <Form.Label>Email Address</Form.Label>
+                            <Form.Label>{t('Email Address')}</Form.Label>
                             <Form.Control
                                 type='email'
-                                placeholder='Enter email'
+                                placeholder={t('Enter email')}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             ></Form.Control>
                         </Form.Group>
 
                         <Form.Group controlId='password'>
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>{t('Password')}</Form.Label>
                             <Form.Control
                                 type='password'
-                                placeholder='Enter password'
+                                placeholder={t('Enter password')}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             ></Form.Control>
                         </Form.Group>
 
                         <Form.Group controlId='confirmPassword'>
-                            <Form.Label>Confirm Password</Form.Label>
+                            <Form.Label>{t('Confirm Password')}</Form.Label>
                             <Form.Control
                                 type='password'
-                                placeholder='Confirm password'
+                                placeholder={t('Confirm password')}
                                 value={confirmPassword}
                                 onChange={(e) =>
                                     setConfirmPassword(e.target.value)
@@ -115,13 +118,13 @@ const ProfileScreen = ({ history }) => {
                         </Form.Group>
 
                         <Button type='submit' variant='primary'>
-                            Update
+                            {t('Update')}
                         </Button>
                     </Form>
                 )}
             </Col>
             <Col md={9}>
-                <h2>My Orders</h2>
+                <h2>{t('My Orders')}</h2>
                 {loadingOrders ? (
                     <Loader />
                 ) : errorOrders ? (
@@ -136,11 +139,11 @@ const ProfileScreen = ({ history }) => {
                     >
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>DATE</th>
-                                <th>TOTAL</th>
-                                <th>PAID</th>
-                                <th>DELIVERED</th>
+                                <th>{t('ID')}</th>
+                                <th>{t('DATE')}</th>
+                                <th>{t('TOTAL')}</th>
+                                <th>{t('PAID')}</th>
+                                <th>{t('DELIVERED')}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -149,7 +152,7 @@ const ProfileScreen = ({ history }) => {
                                 <tr key={order._id}>
                                     <td>{order._id}</td>
                                     <td>{order.createdAt.substring(0, 10)}</td>
-                                    <td>{order.totalPrice}</td>
+                                    <td>&#8362;{order.totalPrice}</td>
                                     <td>
                                         {order.isPaid ? (
                                             order.paidAt.substring(0, 10)
@@ -178,7 +181,7 @@ const ProfileScreen = ({ history }) => {
                                                 variant='info'
                                                 className='btn-sm'
                                             >
-                                                Details
+                                                {t('Details')}
                                             </Button>
                                         </LinkContainer>
                                     </td>

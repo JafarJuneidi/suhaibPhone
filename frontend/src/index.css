@@ -1,3 +1,11 @@
+* {
+    letter-spacing: 0px !important;
+}
+
+.arabic {
+    direction: rtl;
+}
+
 main {
     min-height: 80vh;
 }
@@ -50,4 +58,18 @@ h2 {
     .carousel-caption h2 {
         font-size: 2.5vw;
     }
+}
+
+.lang-btn {
+    background-color: transparent;
+    color: #ffffff80;
+}
+
+.lang-btn:hover {
+    background-color: transparent;
+    color: #fff;
+}
+
+.lang-btn:active {
+    background-color: transparent;
 }

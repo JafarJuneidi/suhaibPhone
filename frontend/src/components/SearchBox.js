@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 const SearchBox = ({ history }) => {
     const [keyword, setKeyword] = useState('');
+    const { t } = useTranslation();
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -19,11 +21,11 @@ const SearchBox = ({ history }) => {
                 type='text'
                 name='q'
                 onChange={(e) => setKeyword(e.target.value)}
-                placeholder='Search Products...'
+                placeholder={t('Search Products')}
                 className='mr-sm-2 ml-sm-5'
             ></Form.Control>
             <Button type='submit' variant='outline-success' className='p-2'>
-                Search
+                {t('Search')}
             </Button>
         </Form>
     );
