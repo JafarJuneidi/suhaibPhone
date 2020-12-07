@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 const Header = () => {
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
-    console.log(i18n.language);
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
@@ -54,7 +53,7 @@ const Header = () => {
                         />
                         <Button
                             className='ml-auto mr-auto'
-                            style={{ 'background-color': 'transparent' }}
+                            style={{ backgroundColor: 'transparent' }}
                             onClick={changeLanguage}
                         >
                             {i18n.language === 'en' ? 'العربية' : 'English'}

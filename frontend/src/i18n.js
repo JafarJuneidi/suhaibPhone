@@ -19,6 +19,7 @@ i18n.use(Backend)
         react: {
             useSuspense: false, //   <---- this will do the magic
         },
+        keySeparator: false,
     });
 
 export default i18n;
