@@ -206,12 +206,6 @@ const OrderScreen = ({ history, match }) => {
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>{t('Tax')}</Col>
-                                    <Col>&#8362;{order.taxPrice}</Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
                                     <Col>{t('Total')}</Col>
                                     <Col>&#8362;{order.totalPrice}</Col>
                                 </Row>
@@ -223,7 +217,7 @@ const OrderScreen = ({ history, match }) => {
                                         <Loader />
                                     ) : (
                                         <PayPalButton
-                                            amount={5}
+                                            amount={order.totalPrice}
                                             currency='ILS'
                                             onSuccess={SuccessPaymentHandler}
                                         />

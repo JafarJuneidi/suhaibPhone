@@ -18,7 +18,7 @@ const ShippingScreen = ({ history }) => {
     }
 
     const [address, setAddress] = useState(shippingAddress.address);
-    const [city, setCity] = useState('Hebron');
+    const [city, setCity] = useState(shippingAddress.city);
     const [postalCode, setPostalCode] = useState('90100');
     const [phoneNumber, setPhoneNumber] = useState(shippingAddress.phoneNumber);
     // const [country, setCountry] = useState(shippingAddress.country);
@@ -67,7 +67,6 @@ const ShippingScreen = ({ history }) => {
                         placeholder={t('Enter city')}
                         value={city}
                         required
-                        disabled
                         onChange={(e) => setCity(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
@@ -79,7 +78,6 @@ const ShippingScreen = ({ history }) => {
                         placeholder={t('Enter postal code')}
                         value={postalCode}
                         required
-                        disabled
                         onChange={(e) => setPostalCode(e.target.value)}
                     ></Form.Control>
                 </Form.Group>

@@ -31,12 +31,9 @@ const PlaceOrderScreen = ({ history }) => {
     cart.itemsPrice = addDecimals(
         cart.cartItems.reduce((acc, item) => acc + item.qty * item.price, 0)
     );
-    cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
-    cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
+    cart.shippingPrice = 15;
     cart.totalPrice = (
-        Number(cart.itemsPrice) +
-        Number(cart.shippingPrice) +
-        Number(cart.taxPrice)
+        Number(cart.itemsPrice) + Number(cart.shippingPrice)
     ).toFixed(2);
 
     const orderCreate = useSelector((state) => state.orderCreate);
@@ -62,7 +59,6 @@ const PlaceOrderScreen = ({ history }) => {
                 shippingAddress: cart.shippingAddress,
                 paymentMethod: cart.paymentMethod,
                 itemsPrice: cart.itemsPrice,
-                taxPrice: cart.taxPrice,
                 shippingPrice: cart.shippingPrice,
                 totalPrice: cart.totalPrice,
             })
@@ -129,7 +125,9 @@ const PlaceOrderScreen = ({ history }) => {
                                                 >
                                                     {item.qty} x &#8362;
                                                     {item.price} = &#8362;
-                                                    {item.qty * item.price}
+                                                    {(
+                                                        item.qty * item.price
+                                                    ).toFixed(2)}
                                                 </Col>
                                             </Row>
                                         </ListGroup.Item>
@@ -156,12 +154,6 @@ const PlaceOrderScreen = ({ history }) => {
                                 <Row>
                                     <Col>{t('Shipping')}</Col>
                                     <Col>&#8362;{cart.shippingPrice}</Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col>{t('Tax')}</Col>
-                                    <Col>&#8362;{cart.taxPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>

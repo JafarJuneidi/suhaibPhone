@@ -70,6 +70,16 @@ const productSchema = mongoose.Schema(
     }
 );
 
+productSchema.pre('save', async function (next) {
+    // a check so it won't run when other data are modified but price is not,
+    // only runs if price is modified
+    if (!this.isModified('price')) {
+        next();
+    }
+
+    this.price = this.price + this.price * 0.14;
+});
+
 const Product = mongoose.model('Product', productSchema);
 
 export default Product;
