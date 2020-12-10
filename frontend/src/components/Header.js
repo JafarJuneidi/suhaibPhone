@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 const Header = () => {
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
+    console.log(i18n.language);
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
@@ -20,7 +21,7 @@ const Header = () => {
     };
 
     const changeLanguage = () => {
-        const lng = i18n.language === 'en' ? 'ar' : 'en';
+        const lng = i18n.language === 'en' || !i18n.language ? 'ar' : 'en';
         i18n.changeLanguage(lng);
     };
 
@@ -56,7 +57,9 @@ const Header = () => {
                             style={{ backgroundColor: 'transparent' }}
                             onClick={changeLanguage}
                         >
-                            {i18n.language === 'en' ? 'العربية' : 'English'}
+                            {i18n.language === 'en' || !i18n.language
+                                ? 'العربية'
+                                : 'English'}
                         </Button>
                         <Nav>
                             <LinkContainer to='/cart'>
