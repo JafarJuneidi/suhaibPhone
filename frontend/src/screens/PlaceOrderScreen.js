@@ -87,6 +87,12 @@ const PlaceOrderScreen = ({ history }) => {
                                     {cart.shippingAddress.phoneNumber}
                                 </span>
                             </p>
+                            <p>
+                                <strong>{t('ID')}: </strong>
+                                <span style={{ direction: 'ltr' }}>
+                                    {cart.shippingAddress.id}
+                                </span>
+                            </p>
                         </ListGroup.Item>
 
                         <ListGroup.Item>

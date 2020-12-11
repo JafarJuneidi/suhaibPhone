@@ -117,6 +117,18 @@ const OrderScreen = ({ history, match }) => {
                                 {order.shippingAddress.postalCode},{' '}
                                 {order.shippingAddress.country}
                             </p>
+                            <p>
+                                <strong>{t('Phone Number')}: </strong>
+                                <span style={{ direction: 'ltr' }}>
+                                    {order.shippingAddress.phoneNumber}
+                                </span>
+                            </p>
+                            <p>
+                                <strong>{t('ID')}: </strong>
+                                <span style={{ direction: 'ltr' }}>
+                                    {order.shippingAddress.id}
+                                </span>
+                            </p>
                             {order.isDelivered ? (
                                 <Message variant='success'>
                                     {t('Delivered on')} : {order.deliveredAt}
