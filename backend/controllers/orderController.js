@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+import nodemailer from 'nodemailer';
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -30,6 +31,23 @@ const addOrderItems = asyncHandler(async (req, res) => {
         });
 
         const createdOrder = await order.save();
+
+        const transporter = nodemailer.createTransport({
+            service: 'outlook',
+            auth: {
+                user: process.env.HOTMAIL,
+                pass: process.env.HOTMAIL_PASS,
+            },
+        });
+
+        const mailOptions = {
+            from: process.env.HOTMAIL,
+            to: process.env.GMAIL,
+            subject: 'Suhaib phone',
+            text: `${createdOrder}`,
+        };
+
+        transporter.sendMail(mailOptions);
 
         // 201 something created
         res.status(201).json(createdOrder);
