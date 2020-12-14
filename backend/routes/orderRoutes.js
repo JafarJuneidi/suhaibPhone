@@ -14,7 +14,7 @@ router.route('/').post(protect, addOrderItems).get(protect, isAdmin, getOrders);
 router.route('/myorders').get(protect, getMyOrders);
 // make sure this is at the bottom, so that when it looks at what's afte / it's an ID
 router.route('/:id').get(protect, getOrderById);
-router.route('/:id/pay').put(protect, updateOrderToPaid);
+router.route('/:id/pay').put(protect, isAdmin, updateOrderToPaid);
 router.route('/:id/deliver').put(protect, isAdmin, updateOrderToDelivered);
 
 export default router;

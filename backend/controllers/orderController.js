@@ -9,7 +9,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
     const {
         orderItems,
         shippingAddress,
-        paymentMethod,
         itemsPrice,
         shippingPrice,
         totalPrice,
@@ -24,7 +23,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
             user: req.user._id,
             orderItems,
             shippingAddress,
-            paymentMethod,
             itemsPrice,
             shippingPrice,
             totalPrice,
@@ -40,7 +38,17 @@ const addOrderItems = asyncHandler(async (req, res) => {
             from: process.env.HOTMAIL,
             to: process.env.GMAIL,
             subject: 'Suhaib phone',
-            text: `${createdOrder}`,
+            html: `<h4>${createdOrder.user}</h4>
+            <h3>Shipping:</h3>
+            <ul>
+                <li>city: ${createdOrder.shippingAddress.city}</li>
+                <li>address: ${createdOrder.shippingAddress.address}</li>
+                <li>phone number: ${createdOrder.shippingAddress.phoneNumber}</li>
+            </ul>
+
+            <h2>items price: ${createdOrder.itemsPrice}</h2>
+            <h2>shipping price: ${createdOrder.shippingPrice}</h2>
+            <h2>total price: ${createdOrder.totalPrice}</h2>`,
         });
 
         // 201 something created
@@ -68,20 +76,13 @@ const getOrderById = asyncHandler(async (req, res) => {
 
 // @desc    Update order to paid
 // @route   PUT /api/orders/:id/pay
-// @access  Private
+// @access  Private/Admin
 const updateOrderToPaid = asyncHandler(async (req, res) => {
-    // populate get user name and email that is associated with this order
     const order = await Order.findById(req.params.id);
 
     if (order) {
         order.isPaid = true;
         order.paidAt = Date.now();
-        order.paymentResult = {
-            id: req.body.id,
-            status: req.body.status,
-            update_time: req.body.update_time,
-            email_address: req.body.payer.email_address,
-        };
 
         const updatedOrder = await order.save();
         res.json(updatedOrder);
@@ -111,7 +112,6 @@ const getOrders = asyncHandler(async (req, res) => {
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
-    // populate get user name and email that is associated with this order
     const order = await Order.findById(req.params.id);
 
     if (order) {

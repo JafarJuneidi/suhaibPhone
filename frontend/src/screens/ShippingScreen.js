@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
@@ -8,31 +8,32 @@ import { useTranslation } from 'react-i18next';
 
 const ShippingScreen = ({ history }) => {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
     const cart = useSelector((state) => state.cart);
     const { shippingAddress } = cart;
 
     const userLogin = useSelector((state) => state.userLogin);
-    if (!userLogin.userInfo) {
-        history.push('/');
-    }
+    const { userInfo } = userLogin;
 
     const [address, setAddress] = useState(shippingAddress.address);
     const [city, setCity] = useState(shippingAddress.city);
     const [postalCode, setPostalCode] = useState('90100');
     const [phoneNumber, setPhoneNumber] = useState(shippingAddress.phoneNumber);
-    const [id, setId] = useState(shippingAddress.id);
-    // const [country, setCountry] = useState(shippingAddress.country);
-
-    const dispatch = useDispatch();
 
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(
-            saveShippingAddress({ address, city, postalCode, phoneNumber, id })
+            saveShippingAddress({ address, city, postalCode, phoneNumber })
         );
-        history.push('/payment');
+        history.push('/placeorder');
     };
+
+    useEffect(() => {
+        if (!userInfo) {
+            history.push('/');
+        }
+    }, [userInfo, history]);
 
     return (
         <FormContainer>
@@ -58,17 +59,6 @@ const ShippingScreen = ({ history }) => {
                         value={phoneNumber}
                         required
                         onChange={(e) => setPhoneNumber(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-
-                <Form.Group controlId='id'>
-                    <Form.Label>{t('ID')}</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder={t('Enter id number')}
-                        value={id}
-                        required
-                        onChange={(e) => setId(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
 

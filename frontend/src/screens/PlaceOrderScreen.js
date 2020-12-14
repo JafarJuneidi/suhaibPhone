@@ -21,8 +21,6 @@ const PlaceOrderScreen = ({ history }) => {
 
     if (!cart.shippingAddress.address) {
         history.push('/shipping');
-    } else if (!cart.paymentMethod) {
-        history.push('/payment');
     }
 
     // Calculate prices
@@ -57,7 +55,6 @@ const PlaceOrderScreen = ({ history }) => {
             createOrder({
                 orderItems: cart.cartItems,
                 shippingAddress: cart.shippingAddress,
-                paymentMethod: cart.paymentMethod,
                 itemsPrice: cart.itemsPrice,
                 shippingPrice: cart.shippingPrice,
                 totalPrice: cart.totalPrice,
@@ -67,7 +64,7 @@ const PlaceOrderScreen = ({ history }) => {
 
     return (
         <>
-            <CheckoutSteps step1 step2 step3 step4 />
+            <CheckoutSteps step1 step2 step3 />
             <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>
@@ -87,18 +84,6 @@ const PlaceOrderScreen = ({ history }) => {
                                     {cart.shippingAddress.phoneNumber}
                                 </span>
                             </p>
-                            <p>
-                                <strong>{t('ID')}: </strong>
-                                <span style={{ direction: 'ltr' }}>
-                                    {cart.shippingAddress.id}
-                                </span>
-                            </p>
-                        </ListGroup.Item>
-
-                        <ListGroup.Item>
-                            <h2>{t('Payment Method')}</h2>
-                            <strong>{t('Mathod')}: </strong>
-                            {cart.paymentMethod}
                         </ListGroup.Item>
 
                         <ListGroup.Item>
