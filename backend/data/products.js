@@ -1,7 +1,7 @@
 const products = [
     {
         name: 'Xiaomi Redmi 9C',
-        image: '/images/REDMI_mi_9C.jpg',
+        image: '/images/REDMI_MI_9C.jpg',
         description: 'Soon',
         brand: 'Xiaomi',
         category: 'Electronics',
