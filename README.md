@@ -12,12 +12,6 @@ This is a website for my uncles phone shop.
 
 ## Overview
 
-### Links
-
--   Live Site URL: [https://suhaibphone.herokuapp.com/](https://suhaibphone.herokuapp.com/)
-
-## My process
-
 ### Built with
 
 -   React
